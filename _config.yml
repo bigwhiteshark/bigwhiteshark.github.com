@@ -1,15 +1,15 @@
 # Site settings
-title:            赵达的个人网站 - Zhao Da's Personal Website
-name:             赵达
-email:            zd6437@gmail.com
-description:      我目前就职于腾讯，是一名高级前端开发工程师。
+title:            bigwhiteshark's Personal Blog
+name:             bigwhiteshark
+email:            bigwhiteshark@163
+description:      我,一名高级前端开发工程师。
 baseurl:          ""
 url:              http://zhaoda.net
 twitter_username: sage6437
-github_username:  zhaoda
-github_url:       https://github.com/zhaoda/zhaoda.github.io
+github_username:  bigwhiteshark
+github_url:       https://github.com/bigwhiteshark/bigwhiteshark.github.io
 lang:             zh
-timezone:         Asia/Shanghai
+timezone:         Asia/Beijing
 google_verify:    k9Sobn7a9wwRvlG0YV0L8f2wiguGMDSUNaqlgQd46Ro
 google_plus:      113279817760268675586
 
