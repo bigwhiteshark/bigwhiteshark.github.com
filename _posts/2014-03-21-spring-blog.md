@@ -6,7 +6,7 @@ tags: [spring blog]
 
 ## 关于Spring
 
-[Spring](https://github.com/zhaoda/spring "Spring")是一个通过GitHub Issues撰写内容的博客引擎，或者说是一个简单、静态化的建站系统。不需要服务器和数据库支持，你可以把它作为一个GitHub代码仓库，并托管在免费的GitHub Pages上运行，然后在这个仓库的Issues系统里撰写日志。
+[Spring](https://github.com/bigwhiteshark/spring "Spring")是一个通过GitHub Issues撰写内容的博客引擎，或者说是一个简单、静态化的建站系统。不需要服务器和数据库支持，你可以把它作为一个GitHub代码仓库，并托管在免费的GitHub Pages上运行，然后在这个仓库的Issues系统里撰写日志。
 
 你可以在这个仓库的Issues系统里添加labels标签，这些标签会成为博客的分类，然后新建Issues，并用Markdown语法写日志。
 
@@ -18,7 +18,7 @@ Spring拥有响应式的页面设计，可以在手机、平板和桌面端完�
 
 ### 首先
 
-*   对[Spring](https://github.com/zhaoda/spring "Spring") 这个仓库进行Fork。
+*   对[Spring](https://github.com/bigwhiteshark/spring "Spring") 这个仓库进行Fork。
 *   然后到你Fork的新仓库的设置页面里修改仓库名称（`Repository Name`）。
 *   把这个仓库托管到 [GitHub Pages](http://pages.github.com "GitHub Pages") 里作为网站运行，它可以是一个个人/组织网站，也可以是一个项目网站（需要创建gh-pages分支）；关于如果使用GitHub Pages，查看 http://pages.github.com 。
 *   当然，你还可以设置独立的域名来访问这个网站，查看 https://help.github.com/articles/setting-up-a-custom-domain-with-pages 。
@@ -32,11 +32,11 @@ $.extend(spring.config, {
   // my blog title
   title: 'Spring',
   // my blog description
-  desc: "A blog engine written by github issues [Fork me on GitHub](https://github.com/zhaoda/spring)",
+  desc: "A blog engine written by github issues [Fork me on GitHub](https://github.com/bigwhiteshark/spring)",
   // my github username
-  owner: 'zhaoda',
+  owner: 'bigwhiteshark',
   // creator's username
-  creator: 'zhaoda',
+  creator: 'bigwhiteshark',
   // the repository name on github for writting issues
   repo: 'spring',
   // custom page
@@ -146,16 +146,16 @@ $ grunt
 
 ## 有问题可以提交Bug
 
-*   查看 [主干](https://github.com/zhaoda/spring/commits/master) 提交中是否已经修复了Bug。
-*   查看 [已经提过的问题](https://github.com/zhaoda/spring/issues)。
-*   [提交一个新问题](https://github.com/zhaoda/spring/issues/new)，请注明存在问题的浏览器版本和设备平台。
+*   查看 [主干](https://github.com/bigwhiteshark/spring/commits/master) 提交中是否已经修复了Bug。
+*   查看 [已经提过的问题](https://github.com/bigwhiteshark/spring/issues)。
+*   [提交一个新问题](https://github.com/bigwhiteshark/spring/issues/new)，请注明存在问题的浏览器版本和设备平台。
 
 ## 谁在用
 
-*   [https://github.com/zhaoda/spring/issues/6](https://github.com/zhaoda/spring/issues/6)
+*   [https://github.com/bigwhiteshark/spring/issues/6](https://github.com/bigwhiteshark/spring/issues/6)
 
-如果你也在使用Spring， [请告诉我](https://github.com/zhaoda/spring/issues/6) 。
+如果你也在使用Spring， [请告诉我](https://github.com/bigwhiteshark/spring/issues/6) 。
 
 ## 协议
 
-Spring遵循 [MIT 协议](https://raw.githubusercontent.com/zhaoda/spring/master/LICENSE "MIT License")，欢迎使用。
+Spring遵循 [MIT 协议](https://raw.githubusercontent.com/bigwhiteshark/spring/master/LICENSE "MIT License")，欢迎使用。

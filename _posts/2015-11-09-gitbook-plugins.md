@@ -73,17 +73,17 @@ Gitbook 本身功能丰富，但同时可以使用插件来进行个性化定制
       "shortName": "webpack-handbook"
     },
     "github": {
-      "url": "https://github.com/zhaoda/webpack-handbook"
+      "url": "https://github.com/bigwhiteshark/webpack-handbook"
     },
     "editlink": {
-      "base": "https://github.com/zhaoda/webpack-handbook/blob/master/content",
+      "base": "https://github.com/bigwhiteshark/webpack-handbook/blob/master/content",
       "label": "编辑本页"
     },
     "baidu": {
         "token": "a9787f0ab45d5e237bab522431d0a7ec"
     },
     "sitemap": {
-        "hostname": "http://zhaoda.net/"
+        "hostname": "http://bigwhiteshark.net/"
     }
   }
 }
