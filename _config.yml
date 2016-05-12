@@ -1,11 +1,11 @@
 # Site settings
 title:            bigwhiteshark's Personal Blog
 name:             bigwhiteshark
-email:            bigwhiteshark@163
+email:            bigwhiteshark@163.com
 description:      我,一名高级前端开发工程师。
 baseurl:          ""
-url:              http://bigwhiteshark.net
-twitter_username: sage6437
+url:              http://bigwhiteshark.github.com
+twitter_username: bigwhiteshark
 github_username:  bigwhiteshark
 github_url:       https://github.com/bigwhiteshark/bigwhiteshark.github.io
 lang:             zh
@@ -41,6 +41,7 @@ defaults:
       layout: "post"
 
 # Conversion
+highlighter: rouge
 #highlighter: pygments
 
 markdown: redcarpet
@@ -51,7 +52,8 @@ redcarpet:
     - autolink
     - strikethrough
     - lax_spacing
-    #- fenced_code_blocks
+    - no_fenced_code_blocks
+    - syntax_highlighter_opts
     - tables
 
 # markdown: kramdown
