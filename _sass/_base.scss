@@ -15,7 +15,7 @@ code {
 }
 
 pre code {
-    border-radius: 3px;
+    border-radius: 0;
     background: none;
     padding: 0;
 }
@@ -24,6 +24,7 @@ pre code {
     font-size: 0.8rem;
     pre {
         overflow: auto;
+        border-radius: 3px;
     }
 }
 
