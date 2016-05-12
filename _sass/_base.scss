@@ -154,6 +154,7 @@ table {
 
 article {
     max-width: 768px;
+    margin: 0 auto;
 
     .footnote {
         border: 0;
@@ -210,6 +211,8 @@ article.home {
 }
 
 footer {
+    max-width: 768px;
+    margin: 0 auto;
     margin-top: 2rem;
     font-size: 12px;
     color: #ccc;
