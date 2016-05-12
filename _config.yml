@@ -41,7 +41,7 @@ defaults:
       layout: "post"
 
 # Conversion
-highlighter: rouge
+highlighter: prism
 #highlighter: pygments
 
 markdown: redcarpet
