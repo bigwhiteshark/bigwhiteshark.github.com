@@ -9,6 +9,7 @@
       {{ content | replace: '&#8617;', '&#8617;&#xfe0e;' }}
     </main>
     {% if page.path contains '_posts' %}
+      <script data-cfasync="false" src="/assets/js/prism.js"></script>
       {% if content contains 'reversefootnote' %}
         <aside class="note"></aside>
         <script async src="/assets/js/footnotes.js"></script>
