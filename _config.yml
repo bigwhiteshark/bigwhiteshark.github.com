@@ -52,7 +52,7 @@ redcarpet:
     - autolink
     - strikethrough
     - lax_spacing
-    #- fenced_code_blocks
+    - fenced_code_blocks
     #- syntax_highlighter_opts
     - tables
 
