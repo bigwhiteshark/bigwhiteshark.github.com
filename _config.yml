@@ -10,8 +10,8 @@ github_username:  bigwhiteshark
 github_url:       https://github.com/bigwhiteshark/bigwhiteshark.github.io
 lang:             zh
 timezone:         Asia/Beijing
-#google_verify:    RT539FF0rbiuLpZhJ03luXudbWRnqQT3B-NFKaqY6TA
-#google_plus:      117687312367284657910
+google_verify:    RT539FF0rbiuLpZhJ03luXudbWRnqQT3B-NFKaqY6TA
+google_plus:      117687312367284657910
 
 # Handling Reading
 safe:         false
