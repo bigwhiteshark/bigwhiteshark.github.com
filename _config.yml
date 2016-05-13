@@ -54,7 +54,6 @@ redcarpet:
     - lax_spacing
     - fenced_code_blocks
     - tables
-    - with_toc_data
 
 comments :
      provider : duoshuo
