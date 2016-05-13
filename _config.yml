@@ -53,8 +53,8 @@ redcarpet:
     - strikethrough
     - lax_spacing
     - fenced_code_blocks
-    - syntax_highlighter_opts
     - tables
+    - with_toc_data
 
 comments :
      provider : duoshuo
