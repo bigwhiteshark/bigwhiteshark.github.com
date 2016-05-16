@@ -6,6 +6,17 @@
     <title>{% if page.title %}{{ page.title }} - {{site.name}}{% else %}{{ site.title }}{% endif %}</title>
     <meta name="description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}">
     <meta name="p:domain_verify" content="c9169f42fcb3389e29678152cfad50e0"/>
+    
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    {% if page.path contains '_posts' %}
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+      <!-- add after bootstrap.min.css -->
+      <link rel="stylesheet" href="https://cdn.rawgit.com/afeld/bootstrap-toc/v0.3.0/dist/bootstrap-toc.min.css">
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+      <!-- add after bootstrap.min.js -->
+      <script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v0.3.0/dist/bootstrap-toc.min.js"></script>
+    {% endif %}
+
     <link rel="stylesheet" href="{{ "/assets/css/main.css" | prepend: site.baseurl }}">
     <link href="//cdn.bootcss.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
@@ -17,15 +28,6 @@
     <link rel="stylesheet" href="//fonts.useso.com/css?family=Open+Sans:300,400,600,700&amp;amp;subset=latin,latin-ext"> -->
     <link rel="shortcut icon" href="/favicon.ico"/>
     <link rel="bookmark" href="/favicon.ico"/>
-    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-    {% if page.path contains '_posts' %}
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-      <!-- add after bootstrap.min.css -->
-      <link rel="stylesheet" href="https://cdn.rawgit.com/afeld/bootstrap-toc/v0.3.0/dist/bootstrap-toc.min.css">
-      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-      <!-- add after bootstrap.min.js -->
-      <script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v0.3.0/dist/bootstrap-toc.min.js"></script>
-    {% endif %}
     <script data-cfasync="false" src="/assets/js/app.js"></script>
     <script data-cfasync="false" src="/assets/js/retina.js"></script>
     <script data-cfasync="false" src="/assets/js/dropit.js"></script>
