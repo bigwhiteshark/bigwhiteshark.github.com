@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html lang="{% if page.lang %}{{ page.lang }}{% elsif site.lang %}{{ site.lang }}{% else %}en{% endif %}">
-  <head>
-    {% include head.html %}
-  </head>
-  <body>
+  {% include head.html %}
+  <body data-spy="scroll" data-target="#toc">
     {% include header.html %}
     <main>
       {{ content | replace: '&#8617;', '&#8617;&#xfe0e;' }}
