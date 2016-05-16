@@ -24,7 +24,6 @@ sass:
 gems:
     - jekyll-sitemap
     - jekyll-feed
-    - jekyll-toc
 
 exclude: ["README.md"]
 
