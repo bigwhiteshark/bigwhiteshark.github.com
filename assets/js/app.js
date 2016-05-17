@@ -42,38 +42,9 @@ $(function() {
         }
     }
 
-    var currentApiPrefix;
-    var parentMenuSelector;
-    var lastApiPrefix;
-
     $(window).bind('load resize', function() {
-
         $('#menu').css('height', ($(this).height() - 150) + 'px');
-
     });
-
-    $(document).scroll(function() {
-
-        var h = closest();
-        if (!h) return;
-
-        currentApiPrefix = h.id.split('.')[0];
-        parentMenuSelector = '#' + currentApiPrefix + '-menu';
-
-        $(parentMenuSelector).addClass('active');
-
-        if (lastApiPrefix && (lastApiPrefix != currentApiPrefix)) {
-            $('#' + lastApiPrefix + '-menu').removeClass('active');
-        }
-
-        $('#menu li a').removeClass('active');
-
-        var a = $('a[href="#' + h.id + '"]');
-        a.addClass('active');
-
-        lastApiPrefix = currentApiPrefix.split('.')[0];
-
-    })
 
     // show mobile menu
     $('#nav-button, #overlay').click(function() {
@@ -87,14 +58,14 @@ $(function() {
         $('#getting-started-menu').dropit({
             action: 'click'
         })
-        $('#guide-menu').dropit({
+        $('#github-menu').dropit({
             action: 'click'
         })
     } else {
         $('#getting-started-menu').dropit({
             action: 'mouseenter'
         })
-        $('#guide-menu').dropit({
+        $('#github-menu').dropit({
             action: 'mouseenter'
         })
     }
