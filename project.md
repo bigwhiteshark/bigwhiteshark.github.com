@@ -1,6 +1,6 @@
 ---
 layout: page
-title: 项目
+title: Project
 permalink: /project/
 ---
 <ul>
