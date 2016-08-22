@@ -137,7 +137,7 @@ table {
     @media (min-width: 1180px) {
         position: fixed;
         top: 50px;
-        right: 10px;
+        left: 900px;
         margin: 0;
         width:320px;
         animation-duration: 1s;
@@ -168,7 +168,7 @@ table {
 }
 
 article {
-    max-width: 70%;
+    max-width: 768px;
     .footnote {
         border: 0;
     }
@@ -211,7 +211,7 @@ article.home {
 }
 
 footer {
-    max-width: 70%;
+    max-width: 768px;
     margin-top: 2rem;
     font-size: 12px;
     color: #ccc;
@@ -249,7 +249,7 @@ footer {
 
 #navbar {
     padding-left: 10%;
-    /*max-width: 1193px;*/
+    max-width: 1193px;
     position: relative;
 }
 
@@ -272,7 +272,7 @@ footer {
     padding: 0;
     margin: 0;
     position: absolute;
-    right: 10px;
+    right: 183px;
     top: 15px;
     padding-left: 5%;
     z-index: 1000;
