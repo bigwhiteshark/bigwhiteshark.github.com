@@ -211,7 +211,7 @@ article.home {
 }
 
 footer {
-    max-width: 768px;
+    max-width: 70%;
     margin-top: 2rem;
     font-size: 12px;
     color: #ccc;
@@ -249,7 +249,7 @@ footer {
 
 #navbar {
     padding-left: 10%;
-    max-width: 1193px;
+    /*max-width: 1193px;*/
     position: relative;
 }
 
@@ -272,7 +272,7 @@ footer {
     padding: 0;
     margin: 0;
     position: absolute;
-    right: 183px;
+    right: 10px;
     top: 15px;
     padding-left: 5%;
     z-index: 1000;
