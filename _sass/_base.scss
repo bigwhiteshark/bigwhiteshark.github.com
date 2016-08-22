@@ -137,9 +137,9 @@ table {
     @media (min-width: 1180px) {
         position: fixed;
         top: 50px;
-        right: 50px;
+        right: 10px;
         margin: 0;
-        width:354px;
+        width:320px;
         animation-duration: 1s;
         animation-fill-mode: both;
         -webkit-animation-duration: 1s;
@@ -168,7 +168,7 @@ table {
 }
 
 article {
-    max-width: 768px;
+    max-width: 70%;
     .footnote {
         border: 0;
     }
