@@ -81,7 +81,7 @@ tags: [webgl, light]
   其中，||符号是表示矢量的长度。如果两个矢量的长度都是1.0，那么点积的结果就是cosθ值。如果n为（nx,ny,nz）,l为（lx,ly,lz）,那么 n·l= nx * lx + ny * ly + nz * lz。该公式可由余弦定理得到。
   ```
 
-  ![反射光公式2](/assets/image/blogdiffuse-format-2.png)
+  ![反射光公式2](/assets/image/blog/diffuse-format-2.png)
 
   注意，其一光线方向矢量与表面法线矢量长度必须为1，否则反射光的颜色就会过暗或过亮。将一个矢量长度调整为1，同时保持方向不变的过程称之为 * 归一化*（normalization）。
 
