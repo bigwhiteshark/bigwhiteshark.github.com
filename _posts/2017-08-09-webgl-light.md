@@ -83,7 +83,9 @@ tags: [webgl, light]
 
   ![反射光公式2](/assets/image/blog/diffuse-format-2.png)
 
-  注意，其一光线方向矢量与表面法线矢量长度必须为1，否则反射光的颜色就会过暗或过亮。将一个矢量长度调整为1，同时保持方向不变的过程称之为 * 归一化*（normalization）。
+  注意，其一光线方向矢量与表面法线矢量长度必须为1，否则反射光的颜色就会过暗或过亮。将一个矢量长度调整为1，同时保持方向不变的过程称之为 **归一化**（normalization）。
 
-  入射方向
+  “光线方向”，实际就是入射方向的反方向。
+
+  ![光线方向](/assets/image/blog/light-direction.png)
 
