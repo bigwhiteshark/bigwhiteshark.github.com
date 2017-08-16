@@ -143,14 +143,14 @@ tags: [webgl, light]
 
 点积小于0，意味着cosθ中的θ大于90度。θ是入射角，也就是入射反方向（光线方向）与表面法线向量的夹角，θ大于90度说明光线照射在表面的背面，如下所示
 
-![光线角度](/assets/image/blog/light-angle.png)
+  ![光线角度](/assets/image/blog/light-angle.png)
 
 最后根据公式，计算出漫反射光的颜色。
 
             // 计算漫反射光的颜色
             vec3 diffuse = u_LightColor * a_Color.rgb * nDotL; 
             v_Color = vec4(diffuse,a_Color.a); 
-            
+
 v_Color变量将被传入片元着色器并赋值给gl_FragColor变量。
 
 片元着色器代码：
