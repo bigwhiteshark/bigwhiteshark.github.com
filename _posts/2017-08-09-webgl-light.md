@@ -121,11 +121,22 @@ tags: [webgl, light]
          varying vec4 v_Color; 
          void main(){ 
             gl_Position = u_MvpMatrix * a_Position; 
+            // 对法向量进行归一化
             vec3 normal = normalize(a_Normal.xyz); 
+            // 计算光线方向和法向量的点积
             float nDotL = max(dot(u_LightDirection,normal),0.0); 
+            // 计算漫反射光的颜色
             vec3 diffuse = u_LightColor * a_Color.rgb * nDotL; 
             v_Color = vec4(diffuse,a_Color.a); 
         }
+
+对法向量进行归一化
+
+        // 对法向量进行归一化
+        vec3 normal = normalize(a_Normal.xyz); 
+
+由于a_Normal变量是vec4类型的，使用前三个分量x、y、z表示法线方向，所以将这三个分量提取出来进行归一化。
+
 
 片元着色器代码：
 
