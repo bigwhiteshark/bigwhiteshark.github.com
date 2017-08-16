@@ -45,7 +45,7 @@ tags: [webgl, light]
 
 因为漫反射光在各个方向上都是“均匀”的，所以从任何角度上看去其强度都相等，如下
 
-![漫反射光方向](/assets/image/blog/diffuse-direction.png)
+![漫反射光方向](/assets/image/blog/diffuse-directionpng.png)
 
 * 环境反射：针对环境光而言。反射光的方向可以认为就是入射光的方向。由于环境光照射物体的方式就是各方向均匀、强度相等的，所以反射光也是各方向均匀。
 
