@@ -103,9 +103,13 @@ tags: [webgl, light]
 
 一旦计算好每个平面的法线向量，接下来的任务将数据传给着色器程序。
 
-## 示例程序1（LightedCube）
-平行光下的漫反射。下面重点看一下着色器部分代码：
+## 示例程序
+##### 平行光下的漫反射
+
+示例程序1：[LightedCube.html](./webgl/light/LightedCube.html)。下面重点看一下着色器部分代码：
+
 顶点着色器代码：
+
         attribute vec4 a_Position; 
         attribute vec4 a_Color; 
         attribute vec4 a_Normal;
@@ -133,5 +137,3 @@ tags: [webgl, light]
         void main(){ 
           gl_FragColor = v_Color;
         }
-
-示例程序1：[LightedCube.html](./webgl/light/LightedCube.html)
