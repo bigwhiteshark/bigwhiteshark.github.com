@@ -163,3 +163,8 @@ v_Color变量将被传入片元着色器并赋值给gl_FragColor变量。
         void main(){ 
           gl_FragColor = v_Color;
         }
+
+
+##### 环境光下的漫反射
+
+示例程序2：[LightedCube_ambient.html](/examples/webgl/light/LightedCube_ambient.html)。下面重点看一下着色器部分代码：
