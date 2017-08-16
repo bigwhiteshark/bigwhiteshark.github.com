@@ -106,7 +106,7 @@ tags: [webgl, light]
 ## 示例程序
 ##### 平行光下的漫反射
 
-示例程序1：[LightedCube.html](./webgl/light/LightedCube.html)。下面重点看一下着色器部分代码：
+示例程序1：[LightedCube.html](/examples/webgl/light/LightedCube.html)。下面重点看一下着色器部分代码：
 
 顶点着色器代码：
 
