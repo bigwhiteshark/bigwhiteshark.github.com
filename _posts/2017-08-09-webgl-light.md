@@ -122,7 +122,9 @@ tags: [webgl, light]
             vec3 diffuse = u_LightColor * a_Color.rgb * nDotL; 
             v_Color = vec4(diffuse,a_Color.a); 
         }
+
 片元着色器代码：
+
         #ifdef GL_ES 
         precision mediump float; 
         #endif 
