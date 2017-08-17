@@ -104,7 +104,8 @@ tags: [webgl, light]
 一旦计算好每个平面的法线向量，接下来的任务将数据传给着色器程序。
 
 ## 示例程序
-##### 平行光下的漫反射
+
+### 平行光下的漫反射
 
 示例程序1-1：[LightedCube.html](/examples/webgl/light/LightedCube.html)。下面重点看一下着色器部分代码：
 
@@ -165,9 +166,9 @@ v_Color变量将被传入片元着色器并赋值给gl_FragColor变量。
         gl_FragColor = v_Color;
       }
 ```
-示例程序1-2：[LightedCube_ambient.html](/examples/webgl/light/LightedCube_ambient.html)
+示例程序1-2：[LightedCube_ambient.html](/examples/webgl/light/LightedCube_animation.html)
 
-##### 环境光下的漫反射
+### 环境光下的漫反射
 
 因为环境光均匀地从各个角度照在物体表面，所以由环境光反射产生的颜色只取决于光的颜色和表面基底色。
 
@@ -209,3 +210,21 @@ v_Color变量将被传入片元着色器并赋值给gl_FragColor变量。
       }
 ```
 片元着色器同上。
+
+### 运动物体的光照效果
+物体旋转时，每个表面的法向量也会随之发生变化。如下
+
+ ![法线方向](/assets/image/blog/normal-direction.png)
+
+* 平移不会改变法向量，因为平移不会改变物体的方向。
+* 旋转变换会改变法向量，因为旋转改变了物体的方向；
+* 缩放变换对法向量的影响较为复杂。
+
+物体进行不同变换时，法向量的变化情况较为复杂。
+
+### 逆转置矩阵
+对顶点进行变化的矩阵叫做模型矩阵，但变换之后的法向量如何计算呢？只要将变换之前的法向量乘以模型矩阵的 *逆转置矩阵* (inverse transpose matrix)即可，就是逆矩阵的转置。
+
+* 规则：用法向量乘以模型矩阵的逆转置矩阵，就可以求得变换后的法向量。*
+
+
