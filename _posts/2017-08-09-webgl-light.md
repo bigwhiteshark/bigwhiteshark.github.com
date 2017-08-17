@@ -166,5 +166,31 @@ v_Color变量将被传入片元着色器并赋值给gl_FragColor变量。
 
 
 ##### 环境光下的漫反射
+因为环境光均匀地从各个角度照在物体表面，所以由环境光反射产生的颜色只取决于光的颜色和表面基底色。
 
 示例程序2：[LightedCube_ambient.html](/examples/webgl/light/LightedCube_ambient.html)。下面重点看一下着色器部分代码：
+顶点着色器代码：
+
+```glsl
+        attribute vec4 a_Position; 
+        attribute vec4 a_Color; 
+        attribute vec4 a_Normal;
+
+         uniform mat4 u_MvpMatrix; 
+         uniform vec3 u_DiffuseLight;
+
+         uniform vec3 u_LightDirection;
+         uniform vec3 u_AmbientLight; 
+
+         varying vec4 v_Color; 
+
+         void main(){ 
+          gl_Position = u_MvpMatrix * a_Position; 
+          vec3 normal = normalize(a_Normal.xyz); 
+          float nDotL = max(dot(u_LightDirection,normal),0.0); 
+          vec3 diffuse = u_DiffuseLight * a_Color.rgb * nDotL; 
+          vec3 ambient = u_AmbientLight * a_Color.rgb;
+          v_Color = vec4(diffuse + ambient, a_Color.a);
+        }
+```
+
