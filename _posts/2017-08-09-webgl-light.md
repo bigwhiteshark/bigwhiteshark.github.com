@@ -137,10 +137,10 @@ tags: [webgl, light]
 ```
 由于a_Normal变量是vec4类型的，使用前三个分量x、y、z表示法线方向，所以将这三个分量提取出来进行归一化。
 接下来计算点积，光线方向·法线方向。光线方向存在u_LightDirection变量中，已被归一化。
-
+```glsl
             // 计算光线方向和法向量的点积
             float nDotL = max(dot(u_LightDirection,normal),0.0); 
-
+```
 点积小于0，意味着cosθ中的θ大于90度。θ是入射角，也就是入射反方向（光线方向）与表面法线向量的夹角，θ大于90度说明光线照射在表面的背面，如下所示
 
   ![光线角度](/assets/image/blog/light-angle.png)
