@@ -172,11 +172,11 @@ v_Color变量将被传入片元着色器并赋值给gl_FragColor变量。
 
 因为环境光均匀地从各个角度照在物体表面，所以由环境光反射产生的颜色只取决于光的颜色和表面基底色。
 
-  ![法线方向](/assets/image/blog/ambient-formula.png)
+  ![环境光公式](/assets/image/blog/ambient-formula.png)
 
 最终环境光产生的反射光颜色：
 
-  ![法线方向](/assets/image/blog/ambient-reflect-color.png)
+  ![环境反射光物体表面颜色](/assets/image/blog/ambient-reflect-color.png)
 
 环境光是由墙壁等其它物体反射产生的，所以光的强度通常比较弱。
 
@@ -225,6 +225,47 @@ v_Color变量将被传入片元着色器并赋值给gl_FragColor变量。
 #### 逆转置矩阵
 对顶点进行变化的矩阵叫做模型矩阵，但变换之后的法向量如何计算呢？只要将变换之前的法向量乘以模型矩阵的 *逆转置矩阵* (inverse transpose matrix)即可，就是逆矩阵的转置。
 
-* 规则：用法向量乘以模型矩阵的逆转置矩阵，就可以求得变换后的法向量。*
+* 规则：用法向量乘以模型矩阵的逆转置矩阵，就可以求得变换后的法向量。
+
+顶点着色器代码：
+
+```glsl
+        attribute vec4 a_Position; 
+        attribute vec4 a_Color; 
+        attribute vec4 a_Normal;
+
+         uniform mat4 u_MvpMatrix; 
+         uniform mat4 u_NormalMatrix; //用来变换法向量的矩阵
+
+         uniform vec3 u_LightColor; //光的颜色
+         uniform vec3 u_LightDirection;//归一化的光方向
+         uniform vec3 u_AmbientLight; //环境光颜色
+
+         varying vec4 v_Color; 
+
+         void main(){ 
+          gl_Position = u_MvpMatrix * a_Position; 
+          //计算变换后的法向量并归一化
+          vec3 normal = normalize(vec3(u_NormalMatrix * a_Normal)); 
+          // 计算光线方向和法向量的点积
+          float nDotL = max(dot(u_LightDirection,normal),0.0); 
+          // 计算漫反射光的颜色
+          vec3 diffuse = u_LightColor * a_Color.rgb * nDotL; 
+          // 计算环境光产生的反射光颜色
+          vec3 ambient = u_AmbientLight * a_Color.rgb;
+          // 将上面漫反射光颜色环境光反射光颜色相加得到物体最终颜色
+          v_Color = vec4(diffuse + ambient, a_Color.a);
+        }
+```
+片元着色器同上。
+示例程序3-1：[LightedCube_ambient.html](/examples/webgl/light/LightedTranslatedRotatedCube.html)
+
+## 点光源
+
+与平行光相比，点光源发出的光，在三维空间的不同位置上其方向也不同，如下图。所以，在对点光源光下的物体进行着时，需要在每个入射点计算光源光在该处的方向。
+
+  ![法线方向](/assets/image/blog/pointlight-direction.png)
+
+上面是根据每个顶点的法向量和平行光入射方向来计算反射光的颜色。下面还是采用这个方法，只不过点光源的方向不再是恒定不变的。而根据每个顶点的位置逐一计算。着色器需要知道点光源光自身的所在位置，而不是光的方向。
 
 
