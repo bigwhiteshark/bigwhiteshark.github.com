@@ -106,7 +106,7 @@ tags: [webgl, light]
 ## 示例程序
 ##### 平行光下的漫反射
 
-示例程序1：[LightedCube.html](/examples/webgl/light/LightedCube.html)。下面重点看一下着色器部分代码：
+示例程序1-1：[LightedCube.html](/examples/webgl/light/LightedCube.html)。下面重点看一下着色器部分代码：
 
 顶点着色器代码：
 ```glsl
@@ -165,11 +165,21 @@ v_Color变量将被传入片元着色器并赋值给gl_FragColor变量。
         gl_FragColor = v_Color;
       }
 ```
+示例程序1-2：[LightedCube_ambient.html](/examples/webgl/light/LightedCube_ambient.html)
 
 ##### 环境光下的漫反射
+
 因为环境光均匀地从各个角度照在物体表面，所以由环境光反射产生的颜色只取决于光的颜色和表面基底色。
 
-示例程序2：[LightedCube_ambient.html](/examples/webgl/light/LightedCube_ambient.html)。下面重点看一下着色器部分代码：
+  ![法线方向](/assets/image/blog/ambient-formula.png)
+
+最终环境光产生的反射光颜色：
+
+  ![法线方向](/assets/image/blog/ambient-reflect-color.png)
+
+环境光是由墙壁等其它物体反射产生的，所以光的强度通常比较弱。
+
+示例程序2-1：[LightedCube_ambient.html](/examples/webgl/light/LightedCube_ambient.html)。下面重点看一下着色器部分代码：
 顶点着色器代码：
 
 ```glsl
@@ -180,18 +190,22 @@ v_Color变量将被传入片元着色器并赋值给gl_FragColor变量。
        uniform mat4 u_MvpMatrix; 
        uniform vec3 u_DiffuseLight;
 
-       uniform vec3 u_LightDirection;
-       uniform vec3 u_AmbientLight; 
+       uniform vec3 u_LightDirection;//归一化的世界坐标
+       uniform vec3 u_AmbientLight; //环境光颜色
 
        varying vec4 v_Color; 
 
        void main(){ 
         gl_Position = u_MvpMatrix * a_Position; 
         vec3 normal = normalize(a_Normal.xyz); 
+        // 计算光线方向和法向量的点积
         float nDotL = max(dot(u_LightDirection,normal),0.0); 
+        // 计算漫反射光的颜色
         vec3 diffuse = u_DiffuseLight * a_Color.rgb * nDotL; 
+        // 计算环境光产生的反射光颜色
         vec3 ambient = u_AmbientLight * a_Color.rgb;
+        // 将上面漫反射光颜色环境光反射光颜色相加得到物体最终颜色
         v_Color = vec4(diffuse + ambient, a_Color.a);
       }
 ```
-
+片元着色器同上。

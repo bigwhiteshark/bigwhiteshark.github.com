@@ -12,14 +12,15 @@
         attribute vec4 a_Normal;
 
          uniform mat4 u_MvpMatrix; 
+         uniform mat4 u_NormalMatrix;
          uniform vec3 u_LightColor; 
          uniform vec3 u_LightDirection; 
 
          varying vec4 v_Color; 
          void main(){ 
           gl_Position = u_MvpMatrix * a_Position; 
-          vec3 normal = normalize(a_Normal.xyz); 
-          float nDotL = max(dot(u_LightDirection,normal),0.0); 
+          vec4 normal = u_NormalMatrix * a_Normal;
+          float nDotL = max(dot(u_LightDirection,normalize(normal.xyz)),0.0); 
           vec3 diffuse = u_LightColor * a_Color.rgb * nDotL; 
           v_Color = vec4(diffuse,a_Color.a); 
         }
@@ -43,6 +44,7 @@
     var indices;
     var normals;
     var colors;
+    var angle = 0;
 
     var cubeVerticesBuffer;
     var cubeIndicesBuffer;
@@ -50,8 +52,10 @@
     var cubeColorsBuffer;
 
     var mvpMatrix = mat4.create();
-    var pMatrix = mat4.create();
+    var modelMatrix = mat4.create();
     var viewMatrix = mat4.create();
+    var pMatrix = mat4.create();
+    var normalMatrix = mat4.create();
 
     function initProgram() {
         var fragmentShader = utils.getShader(gl, "shader-fs");
@@ -71,6 +75,7 @@
         prg.a_Normal = gl.getAttribLocation(prg, "a_Normal");
 
         prg.u_MvpMatrix = gl.getUniformLocation(prg, "u_MvpMatrix");
+        prg.u_NormalMatrix = gl.getUniformLocation(prg, "u_NormalMatrix");
         prg.u_LightColor = gl.getUniformLocation(prg, "u_LightColor");
         prg.u_LightDirection = gl.getUniformLocation(prg, "u_LightDirection");
     }
@@ -157,7 +162,6 @@
 
       gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-
       gl.viewport(0, 0, c_width, c_height);
 
       var lightDirection = vec3.fromValues(0.5, 3.0, 4.0);
@@ -167,8 +171,17 @@
       mat4.identity(mvpMatrix);
       mat4.perspective(pMatrix, 30 * Math.PI / 180 , c_width / c_height, 1, 100.0);
       mat4.lookAt(viewMatrix,[3,3,7],[0, 0, 0],[0, 1, 0]);
-      mat4.mul(mvpMatrix,pMatrix,viewMatrix);
+
+      mat4.identity(modelMatrix);
+      mat4.rotate(modelMatrix,modelMatrix,angle * Math.PI/180,[0,1,0]);
+      mat4.multiply(viewMatrix,viewMatrix,modelMatrix);
+      mat4.multiply(mvpMatrix,pMatrix,viewMatrix);
+
+
+      mat4.invert(normalMatrix,modelMatrix);
+      mat4.transpose(normalMatrix,normalMatrix);
       gl.uniformMatrix4fv(prg.u_MvpMatrix, false, mvpMatrix);
+      gl.uniformMatrix4fv(prg.u_NormalMatrix, false, normalMatrix);
 
       try{
         gl.enableVertexAttribArray(prg.a_Position);
@@ -198,6 +211,24 @@
       }
     }
 
+
+    var lastTime = 0;
+
+    function animate() {
+        var timeNow = new Date().getTime();
+        if (lastTime != 0) {
+            var elapsed = timeNow - lastTime;
+            angle += (90 * elapsed) / 10000.0;
+        }
+        lastTime = timeNow;
+    }
+
+    function renderLoop() {
+        requestAnimFrame(renderLoop);
+        drawScene();
+        animate();
+    }
+
     function runWebGLApp() {
         //Obtains a WebGL context
         gl = utils.getGLContext("canvas-element-id");
@@ -208,7 +239,7 @@
         //Initializes lights
         initLights();
         //Renders the scene!
-        drawScene();
+        renderLoop();
     }
     </script>
 </head>
