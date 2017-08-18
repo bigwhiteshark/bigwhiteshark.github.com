@@ -83,8 +83,9 @@ tags: [webgl, light]
 
   ![反射光公式2](/assets/image/blog/diffuse-format-2.png)
 
-  注意，其一光线方向矢量与表面法线矢量长度必须为1，否则反射光的颜色就会过暗或过亮。将一个矢量长度调整为1，同时保持方向不变的过程称之为 **归一化**（normalization）。
-
+ ```
+ 注意，其一光线方向矢量与表面法线矢量长度必须为1，否则反射光的颜色就会过暗或过亮。将一个矢量长度调整为1，同时保持方向不变的过程称之为 **归一化**（normalization）。
+ ```
   “光线方向”，实际就是入射方向的反方向。
 
   ![光线方向](/assets/image/blog/light-direction.png)
@@ -260,7 +261,7 @@ v_Color变量将被传入片元着色器并赋值给gl_FragColor变量。
 片元着色器同上。
 示例程序3-1：[LightedTranslatedRotatedCube.html](/examples/webgl/light/LightedTranslatedRotatedCube.html)
 
-## 点光源
+## 点光源光
 
 与平行光相比，点光源发出的光，在三维空间的不同位置上其方向也不同，如下图。所以，在对点光源光下的物体进行着时，需要在每个入射点计算光源光在该处的方向。
 
@@ -268,4 +269,92 @@ v_Color变量将被传入片元着色器并赋值给gl_FragColor变量。
 
 上面是根据每个顶点的法向量和平行光入射方向来计算反射光的颜色。下面还是采用这个方法，只不过点光源的方向不再是恒定不变的。而根据每个顶点的位置逐一计算。着色器需要知道点光源光自身的所在位置，而不是光的方向。
 
+示例程序4-1：[PointLightedCube.html](/examples/webgl/light/PointLightedCube.html)
 
+```glsl
+        attribute vec4 a_Position; 
+        attribute vec4 a_Color; 
+        attribute vec4 a_Normal;
+
+         uniform mat4 u_MvpMatrix; 
+         uniform mat4 u_ModelMatrix; //模型矩阵
+         uniform mat4 u_NormalMatrix; //用来变换法向量的矩阵
+         uniform vec3 u_LightColor; //光的颜色
+         uniform vec3 u_LightPosition; //光源的位置
+
+         uniform vec3 u_AmbientLight; //环境光颜色
+
+         varying vec4 v_Color; 
+
+         void main(){ 
+          gl_Position = u_MvpMatrix * a_Position; 
+          // 计算变换后法向量并归一化
+          vec3 normal = normalize(vec3(u_NormalMatrix * a_Normal));
+          // 计算顶点的世界坐标
+          vec4 vertexPosition = u_ModelMatrix * a_Position;
+          // 计算光线方向并归一化
+          vec3 lightDirection = normalize(u_LightPosition - vec3(vertexPosition));
+          // 计算光线方向和法向量的点积
+          float nDotL = max(dot(lightDirection,normal),0.0); 
+          // 计算漫反射光的颜色
+          vec3 diffuse = u_LightColor * a_Color.rgb * nDotL; 
+          // 计算环境光产生的反射光颜色
+          vec3 ambient = u_AmbientLight * a_Color.rgb;
+          // 将上面漫反射光颜色环境光反射光颜色相加得到物体最终颜色
+          v_Color = vec4(diffuse + ambient, a_Color.a);
+        }
+```
+片元着色器同上。
+
+## 更逼真：逐片元光照
+上面的颜色都是在顶点着色器中计算完成。下面我们需要逐片元地进行计算。与示例程序4-1：[PointLightedCube.html](/examples/webgl/light/PointLightedCube.html)相比，只有着色器部分被修改了，计算光照效果的逻辑从顶点着色器移到了片元着色器。
+顶点着色器代码：
+```glsl
+        attribute vec4 a_Position; 
+        attribute vec4 a_Color; 
+        attribute vec4 a_Normal;
+
+         uniform mat4 u_MvpMatrix; 
+         uniform mat4 u_ModelMatrix; //模型矩阵
+         uniform mat4 u_NormalMatrix; //用来变换法向量的矩阵
+
+         varying vec3 v_Normal;
+         varying vec4 v_Color; 
+         varying vec3 v_Position;
+         void main(){ 
+          gl_Position = u_MvpMatrix * a_Position;
+          // 计算顶点世界坐标
+          v_Position = vec3(u_ModelMatrix * a_Position);
+          v_Normal = normalize(vec3(u_NormalMatrix * a_Normal));
+          v_Color = a_Color;
+        }
+```
+更改后的片元着色器代码：
+```glsl
+        #ifdef GL_ES 
+        precision mediump float; 
+        #endif 
+
+        uniform vec3 u_LightColor; //光的颜色
+        uniform vec3 u_LightPosition; //光的位置
+        uniform vec3 u_AmbientLight; //环境光颜色
+
+        varying vec3 v_Normal;
+        varying vec4 v_Color; 
+        varying vec3 v_Position;
+        void main(){ 
+          // 对法线进行归一化，因为其内插之后长度不一定为1.0
+          vec3 normal = normalize(v_Normal);
+          // 计算光线方向并归一化
+          vec3 lightDirection = normalize(u_LightPosition - v_Position);
+          // 计算光线方向各向量的点积
+          float nDotL = max(dot(lightDirection, normal), 0.0);
+          // 计算diffuse、ambient及最终颜色
+          vec3 diffuse = u_LightColor * v_Color.rgb * nDotL;
+          vec3 ambient = u_AmbientLight * v_Color.rgb;
+           gl_FragColor = vec4(diffuse + ambient, v_Color.a);
+        }
+```
+
+## 总结
+本节主要讲了光照类型和反射类型，讨论了如何为场景实现光照效果，基于这些知识实现了同几种不同类型光源下的三维场景，搜索了一些着色器的技巧，以增加效果的逼真程度。掌握光照的技巧很重要，正确的光照效果下，三维场景会更加逼真，缺少了光照，它就会显得单调和枯燥。
