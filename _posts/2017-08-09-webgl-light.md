@@ -355,6 +355,6 @@ v_Color变量将被传入片元着色器并赋值给gl_FragColor变量。
            gl_FragColor = vec4(diffuse + ambient, v_Color.a);
         }
 ```
-
+示例程序5-1：[PointLightedCube_perFragment.html](/examples/webgl/light/PointLightedCube_perFragment.html)
 ## 总结
 本节主要讲了光照类型和反射类型，讨论了如何为场景实现光照效果，基于这些知识实现了同几种不同类型光源下的三维场景，搜索了一些着色器的技巧，以增加效果的逼真程度。掌握光照的技巧很重要，正确的光照效果下，三维场景会更加逼真，缺少了光照，它就会显得单调和枯燥。
