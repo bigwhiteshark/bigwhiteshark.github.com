@@ -166,7 +166,7 @@ v_Color变量将被传入片元着色器并赋值给gl_FragColor变量。
         gl_FragColor = v_Color;
       }
 ```
-示例程序1-2：[LightedCube_ambient.html](/examples/webgl/light/LightedCube_animation.html)
+示例程序1-2：[LightedCube_animation.html](/examples/webgl/light/LightedCube_animation.html)
 
 ### 环境光下的漫反射
 
@@ -258,7 +258,7 @@ v_Color变量将被传入片元着色器并赋值给gl_FragColor变量。
         }
 ```
 片元着色器同上。
-示例程序3-1：[LightedCube_ambient.html](/examples/webgl/light/LightedTranslatedRotatedCube.html)
+示例程序3-1：[LightedTranslatedRotatedCube.html](/examples/webgl/light/LightedTranslatedRotatedCube.html)
 
 ## 点光源
 
