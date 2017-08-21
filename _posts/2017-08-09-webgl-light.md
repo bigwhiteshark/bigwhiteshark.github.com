@@ -166,6 +166,7 @@ v_Color变量将被传入片元着色器并赋值给gl_FragColor变量。
       }
 ```
 示例程序1-2：[LightedCube_animation.html](/examples/webgl/light/LightedCube_animation.html)
+示例程序1-3：[LightedCube_perFragment.html](/examples/webgl/light/LightedCube_perFragment.html)
 
 ## 环境光下的漫反射
 
@@ -303,6 +304,7 @@ v_Color变量将被传入片元着色器并赋值给gl_FragColor变量。
         }
 ```
 片元着色器同上。
+示例程序4-1：[PointLightedCube_animation.html](/examples/webgl/light/PointLightedCube_animation.html)
 
 ## 更逼真：逐片元光照
 上面的颜色都是在顶点着色器中计算完成。下面我们需要逐片元地进行计算。与示例程序4-1：[PointLightedCube.html](/examples/webgl/light/PointLightedCube.html)相比，只有着色器部分被修改了，计算光照效果的逻辑从顶点着色器移到了片元着色器。
