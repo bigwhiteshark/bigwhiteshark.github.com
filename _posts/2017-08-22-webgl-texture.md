@@ -34,5 +34,5 @@ WebGL中最常见的纹理格式是2D纹理。纹理映射，就是将一张图�
 我们使用图形的顶点坐标来确定屏幕上哪些部分被纹理图像覆盖，同理要使用 *纹理坐标* (texture coordinates) 来确定纹理图像的哪些部分将覆盖到几何图形上。纹理坐标是一套新坐标系统，下面就来仔细研究一下。
 *纹理坐标* 是纹理图像上的坐标。通过纹理坐标可以在纹理图像上获取纹素颜色。WebGL系统中的纹理坐标系统是二维的。为了将纹理坐标与广泛使用的x坐标和y坐标区分开来，WebGL使用s与t命名纹理坐标（st坐标系统）。
 
-  ![纹理坐标](/assets/image/blog/webgl/texture-coord.jpg)
+  ![纹理坐标](/assets/image/blog/webgl/texture-coord.png)
 
