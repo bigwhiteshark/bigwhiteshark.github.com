@@ -42,3 +42,41 @@ tags: [webgl, texture]
 
 纹理图像的四个角坐标为左下角（0.0，0.0），右下角（1.0,0.0），右上角（1.0， 1.0）和左上角（0.0， 1.0）。纹理坐标很通用，因为坐标值与图像自身的尺寸无关，不管是128*128还是128*256的图像，右上角的纹理坐标始终是(1.0, 1.0)。
 
+## 载入纹理
+为了把纹理应用于几何对象，首先需要载入纹理。图像文件可以是PNG、JPEG、GIF格式。
+### 创建WebGLTexture对象 
+在WebGL中使用纹理的第一个步骤主为每一个纹理创建一个WebGLTexture对象。创建纹理对象要使用下面的代码。WebGLTexture是一个容器对象，它可以作为纹理的对象，通过它访问与此纹理有关的处理参数。
+  ```javascript
+    //声明纹理对象
+    var texture = gl.createTexture();
+
+    // 删除纹理
+    gl.deleteTexture(texture);
+  ```
+注意，当结束使用纹理时，并不需要调用gl.deleteTexture()方法。javascript垃圾收集在销毁WebGLTexture对象会自动删除相应的纹理对象。这个gl.deleteTexture方法只是给用户提供更灵活的控制权，控制何时销毁纹理对象。
+
+### 绑定纹理
+在对新创建的纹理对象做任何操作之前，首先需要把它绑定为当前纹理对象。如下，把一个名为texture的纹理对象绑定为一个2D纹理对象。
+
+  ```javascript
+    gl.bindTexture(gl.TEXTURE_2D,texture);
+  ```
+  调用gl.bindTexture()可告诉WebGL，这就是从现在起需要操作的纹理对象。如同gl.bindBuffer()方法与WebGLBuffer缓冲对象的关系。
+
+  ### 载入图像数据
+绑定纹理对象后，就可以把图像数据载入纹理对象中。意味着，把纹理数据上传到GPU（或GPU可以访问的内存）。把纹理数据上传给GPU要使用gl.texImage2D()方法。当纹理是普通图像文件（PNG、GIF、JPEG）时，则它通常可以接受一个HTML DOM类型 Image对象。
+  ```javascript
+    function loadImageForTexture(url, texture){
+        var image = new Image();
+        image.onload = function(){
+            
+        }
+        image.src = url;
+    }
+  ```
+
+
+
+
+
+
