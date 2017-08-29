@@ -103,14 +103,24 @@ tags: [webgl, texture]
 ### 将纹理上传到GPU
 为了将纹理上传到GPU，需要调用gl.texImage2D()方法。
 ```javascript
-  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, image);
+  gl.texImage2D(target, level, internalformat, format, type, image);
 ```
-* 参数一：2D纹理目标类型。
-* 参数二：Mip映射类型。
-* 参数三：内部格式，
-* 参数四：纹素格式，与参数三参数值相同。用gl.RGBA,表示此纹理的每个纹素都有红、绿、蓝和alpha通道四个分量。
-* 参数五：定义了纹素的存储类型。用gl.UNSIGNED_TYPE表示一个字节保存红、绿、蓝和aplha的每个通道信息。每个纹素需要占用4个字节的内存。
-* 参数六：已载入的图像数据，Image对象
+---
+```
+  target
+      纹理类型，值为gl.TEXTURE_2D或者gl.TEXTURE_CUBE_MAP
+  level
+      传入0，该参数是为金字塔纹理准备的，一般不用这个参数
+  internalformat
+      图像的内部格式，必须与format取值相同
+  format
+      图像的外部格式，根据图像格式来定jpg/bmp用gl.RGB、png用gl.RGBA、灰度图用gl.LUMINANCE或gl.LUMINANCE_ALPHA，此外还有gl.ALPHA
+  type
+      纹理数据的类型，通常使用gl.UNSIGNED_BYTE，可选值还有gl.UNSIGNED_SHORT_5_6_5、gl.UNSIGNED_SHORT_4_4_4_4、gl.UNSIGNED_SHORT_5_5_5_1
+  image
+      包含纹理图像的image对象
+
+```
 
  ![纹理参数与纹素格式](/assets/image/blog/webgl/texture-dataformat.png)
 
