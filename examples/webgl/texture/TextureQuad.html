@@ -96,15 +96,16 @@
         var u_Sampler = gl.getUniformLocation(prg, 'u_Sampler');
         gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1); // Flip the image's y axis
         // 激活纹理单元0
-         gl.activeTexture(gl.TEXTURE1);
+         gl.activeTexture(gl.TEXTURE0);
         // 绑定纹理对象
         gl.bindTexture(gl.TEXTURE_2D, texture);
         // 设置纹理参数
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
         // 设置纹理图片数据
         gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, image);
-        // 
-        gl.uniform1i(u_Sampler, 1);
+        
+        // 将0号纹理传递给着色器
+        gl.uniform1i(u_Sampler, 0);
 
         gl.bindTexture(gl.TEXTURE_2D, null);
 
