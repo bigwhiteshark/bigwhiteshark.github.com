@@ -55,25 +55,70 @@ tags: [webgl, texture]
   ```
 注意，当结束使用纹理时，并不需要调用gl.deleteTexture()方法。javascript垃圾收集在销毁WebGLTexture对象会自动删除相应的纹理对象。这个gl.deleteTexture方法只是给用户提供更灵活的控制权，控制何时销毁纹理对象。
 
-### 绑定纹理
+### 绑定与解绑纹理
 在对新创建的纹理对象做任何操作之前，首先需要把它绑定为当前纹理对象。如下，把一个名为texture的纹理对象绑定为一个2D纹理对象。
 
   ```javascript
+    //绑定纹理
     gl.bindTexture(gl.TEXTURE_2D,texture);
+    //解绑纹理
+    gl.bindTexture(gl.TEXTURE_2D, null);
   ```
   调用gl.bindTexture()可告诉WebGL，这就是从现在起需要操作的纹理对象。如同gl.bindBuffer()方法与WebGLBuffer缓冲对象的关系。
 
-  ### 载入图像数据
+### 载入图像数据
 绑定纹理对象后，就可以把图像数据载入纹理对象中。意味着，把纹理数据上传到GPU（或GPU可以访问的内存）。把纹理数据上传给GPU要使用gl.texImage2D()方法。当纹理是普通图像文件（PNG、GIF、JPEG）时，则它通常可以接受一个HTML DOM类型 Image对象。
   ```javascript
-    function loadImageForTexture(url, texture){
+    function initTextures(){
+        texture = gl.createTexture(); 
         var image = new Image();
         image.onload = function(){
-            
+            loadTexture(image,texture)
         }
-        image.src = url;
+        image.src = '/assets/image/blog/webgl/sky.jpg';
+    }
+    function loadTexture(image,texture){
+        var u_Sampler = gl.getUniformLocation(prg, 'u_Sampler');
+        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1); // Flip the image's y axis
+        // 激活纹理单元0
+         gl.activeTexture(gl.TEXTURE0);
+        // 绑定纹理对象
+        gl.bindTexture(gl.TEXTURE_2D, texture);
+        // 设置纹理参数
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+        // 设置纹理图片数据
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, image);
+        // 指定纹理单元
+        gl.uniform1i(u_Sampler, 0);
+        //解绑纹理
+        gl.bindTexture(gl.TEXTURE_2D, null);
     }
   ```
+**纹理必须是2的n次方**
+在学习如何载入图像数据时，必须知道图像可接受的大小。开发人员经常选择宽度与高度都是2的n次方的图像（即图像的宽度与高度为1、2、4、8、16、32、64、128等值）。另一种表示法是2^m X 2^n的格式，这里的m与n都非负的整数。
+采用这种方法的理由之一是老式的GPU只支持纹理宽度与高度都是2的n次方。桌面OpenGL2.0及之后的版本实际上可以支持非2的n次（NPOT）的纹理。在OpenGL ES 2.0和WebGL中，允许使用NPOT纹理，但是存在以下限制：
+* 如果使用NPOT纹理，则不能使用Mip映射贴图。
+* 唯一允许使用的重复模式是gl.CLAMP_TO_EDGE。
+
+### 将纹理上传到GPU
+为了将纹理上传到GPU，需要调用gl.texImage2D()方法。
+```javascript
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, image);
+```
+* 参数一：2D纹理目标类型。
+* 参数二：Mip映射类型。
+* 参数三：内部格式，
+* 参数四：纹素格式，与参数三参数值相同。用gl.RGBA,表示此纹理的每个纹素都有红、绿、蓝和alpha通道四个分量。
+* 参数五：定义了纹素的存储类型。用gl.UNSIGNED_TYPE表示一个字节保存红、绿、蓝和aplha的每个通道信息。每个纹素需要占用4个字节的内存。
+* 参数六：已载入的图像数据，Image对象
+
+ ![纹理参数与纹素格式](/assets/image/blog/webgl/texture-dataformat.png)
+
+ ## 定义纹理参数
+```javascript
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+```
 
 
 

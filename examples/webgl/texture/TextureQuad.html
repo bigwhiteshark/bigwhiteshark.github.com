@@ -33,10 +33,7 @@
     var prg = null;
     var c_width = 0;
     var c_height = 0;
-    var vertices;
-    var indices;
-    var normals;
-    var colors;
+    var texture;
 
     var verticesTexCoords;
     var vertexTexCoordBuffer;
@@ -70,7 +67,6 @@
         |           |
         |           |
         v1---------V3
-
         */
         verticesTexCoords = new Float32Array([
             //顶点坐标, 纹理坐标
@@ -87,22 +83,32 @@
         gl.bindBuffer(gl.ARRAY_BUFFER, null);
     }
 
-    function initLights() {
-      gl.uniform3f(prg.u_LightColor, 1.0, 1.0, 1.0);
-    }
-
     function initTextures(){
-        var texture = gl.createTexture(); 
+        texture = gl.createTexture(); 
         var image = new Image();
         image.onload = function(){
             loadTexture(image,texture)
         }
-        image.src = '/asset/image/blog/webgl/sky.jpg';
+        image.src = '/assets/image/blog/webgl/sky.jpg';
     }
 
     function loadTexture(image,texture){
         var u_Sampler = gl.getUniformLocation(prg, 'u_Sampler');
+        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1); // Flip the image's y axis
+        // 激活纹理单元0
+         gl.activeTexture(gl.TEXTURE1);
+        // 绑定纹理对象
+        gl.bindTexture(gl.TEXTURE_2D, texture);
+        // 设置纹理参数
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+        // 设置纹理图片数据
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, image);
+        // 
+        gl.uniform1i(u_Sampler, 1);
 
+        gl.bindTexture(gl.TEXTURE_2D, null);
+
+        drawScene();
     }
 
     function drawScene(){
@@ -119,11 +125,12 @@
             
         //2. bind buffers 
         gl.bindBuffer(gl.ARRAY_BUFFER, vertexTexCoordBuffer);
+        gl.bindTexture(gl.TEXTURE_2D, texture);
         gl.vertexAttribPointer(prg.a_Position, 2, gl.FLOAT, false, FSIZE * 4, 0);
-
         gl.vertexAttribPointer(prg.a_TexCoord, 2, gl.FLOAT, false, FSIZE * 4, FSIZE * 2);
+
+        gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4); 
         gl.bindBuffer(gl.ARRAY_BUFFER, null);
-        
       }
       catch(err){
         alert(err);
@@ -138,10 +145,8 @@
         initProgram();
         //Initializes the buffers that we are going to use
         initBuffers();
-        //Initializes lights
-        initLights();
-        //Renders the scene!
-        drawScene();
+        //Initializes texture
+        initTextures();
     }
     </script>
 </head>
