@@ -105,7 +105,6 @@ tags: [webgl, texture]
 ```javascript
   gl.texImage2D(target, level, internalformat, format, type, image);
 ```
----
 ```
   target
       纹理类型，值为gl.TEXTURE_2D或者gl.TEXTURE_CUBE_MAP
