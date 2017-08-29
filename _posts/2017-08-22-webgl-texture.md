@@ -114,7 +114,11 @@ tags: [webgl, texture]
 
  ![纹理参数与纹素格式](/assets/image/blog/webgl/texture-dataformat.png)
 
- ## 定义纹理参数
+## 定义纹理参数
+通过控制纹理参数，可以很好的提升模型的渲染质量。设置纹理参数，通过gl.texParameteri()方法来设置。
+纹理参数可以分为两大种类：
+* 第一种，是和质量或者叫品质相关的参数，改变这个参数的话，渲染的过滤方式会发生变化，所以采用完美补间的纹理，就可能会得到高质量的渲染效果了。
+* 第二种，就是纹理的特征了。具体一点来说，通常指定了超出范围的纹理坐标的话，纹理是会发生变化的。一般来说，纹理坐标的范围应该设定在0-1之间，而实际上，即使指定了范围外的纹理坐标也是可以进行渲染的。但是，如果指定了纹理参数，那么这个范围外的值，也就决定了具体的含义
 ```javascript
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
