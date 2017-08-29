@@ -120,11 +120,7 @@ tags: [webgl, texture]
 * 第一种，是和质量或者叫品质相关的参数，改变这个参数的话，渲染的过滤方式会发生变化，所以采用完美补间的纹理，就可能会得到高质量的渲染效果了。
 * 第二种，就是纹理的特征了。具体一点来说，通常指定了超出范围的纹理坐标的话，纹理是会发生变化的。一般来说，纹理坐标的范围应该设定在0-1之间，而实际上，即使指定了范围外的纹理坐标也是可以进行渲染的。但是，如果指定了纹理参数，那么这个范围外的值，也就决定了具体的含义。
 设置纹理参数，通过gl.texParameteri()方法来设置。需要重点注意的是，这里设定的纹理参数只是针对在这个时间点所绑定的纹理，而WebGL中的的其他纹理是不受影响的。
-```javascript
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
-```
-第一个参数是纹理的种类，是个常量，通常使用2维的纹理时使用和之前一直在使用的gl.TEXTURE_2D。第二个参数指定纹理参数的种类，第三个参数是个常量。
+gl.texParameteri()，第一个参数是纹理的种类，是个常量，通常使用2维的纹理时使用和之前一直在使用的gl.TEXTURE_2D。第二个参数指定纹理参数的种类，第三个参数是个常量。
 
 ### 指定纹理的质量
 指定纹理的质量，也就是品质，具体就是指纹理伸缩时指定以哪种方式来进行。WebGL中的放大和缩小的处理，是可以分别来设定的。
@@ -138,9 +134,52 @@ gl.NEAREST_MIPMAP_LINEAR | 在mip层之间使用线性插值和最邻近过滤 |
 gl.LINEAR_MIPMAP_NEAREST | 选择最邻近的mip层，使用线性过滤 | ○ | ×
 gl.LINEAR_MIPMAP_LINEAR | 在mip层之间使用线性插值和使用线性过滤 | ○ | ×
 
+使用MIPMAP的时候，只能是图片缩小表示时，指定的常量就是上面那些。而放大的时候，只能根据加权平均来进行补间处理。
+上面列举的六个质量参数，越往下，处理负荷越高。通过名字的含义也可以看得出来吧，LINEAR系列要比NEAREST系列负荷大，也能得到相对高质量的效果。如果想要在放大及缩小时都使用最低负荷的处理的话，像下面这样设定就可以了。
+```javascript
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);  
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);  
+```
+### 指定纹理的特征
+给纹理设定范围之外的纹理坐标时的情况，这个设定也使用和刚才同样的函数texPrameteri，第二个参数可以指定为两个类型，分别是纹理坐标的横轴和纵轴。
+设定纹理的横坐标时用gl.TEXTURE_WRAP_S，设定纵坐标时用gl.TEXTURE_WRAP_T。
+而下一个参数可以设定的值有一下三种。
 
+常量名 | 说明 | 例
+gl.REPEAT | 范围外的值进行重复处理 | 1.25 = 0.25 : -0.25 = 0.75
+gl.MIRRORED_REPEAT | 范围外的值进行镜像重复处理 | 1.25 = 0.75 : -0.25 = 0.25
+gl.CLAMP_TO_EDGE | 将值控制在0-1之间 | 1.25 = 1.00 : -0.25 = 0.00
 
+用语言来表述的话，可能不太好理解，gl.REPEAT就是将图片一个接一个的平铺。gl.MIRRORED_REPEAT是像镜子一样翻转之后进行平铺，最后的gl.CLAMP_TO_EDGE就是将纹理坐标控制在0-1的范围内，无论是10，还是100，最后都只能是1。
 
+```javascript
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);  
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);  
+```
+## 定义纹理坐标
+设置纹理坐标，与定顶点颜色坐标类似。WebGL并不知道缓存中的内容是颜色、纹理坐标还是其它数据。它只知道缓存中包含数据。可以看出，将纹理坐标保存在名为verticesTexCoords的数组中，然后把它上传到WebGLBuffer对象。
 
+```javascript
+  function initBuffers() {
+        /**
+        V0 --------V2
+        |           |
+        |           |
+        |           |
+        v1---------V3
+        */
+        var verticesTexCoords = new Float32Array([
+            //顶点坐标, 纹理坐标
+            -0.5,  0.5,   0.0, 1.0,
+            -0.5, -0.5,   0.0, 0.0,
+             0.5,  0.5,   1.0, 1.0,
+             0.5, -0.5,   1.0, 0.0,
+        ]);
 
+        vertexTexCoordBuffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, vertexTexCoordBuffer);
+        gl.bufferData(gl.ARRAY_BUFFER, verticesTexCoords, gl.STATIC_DRAW);
 
+        gl.bindBuffer(gl.ARRAY_BUFFER, null);
+    }
+```
