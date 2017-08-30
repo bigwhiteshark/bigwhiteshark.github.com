@@ -120,6 +120,7 @@ tags: [webgl, texture]
       包含纹理图像的image对象
 
 ```
+下面是图像内外部格式与纹理数据类型对照表。
 
  ![纹理参数与纹素格式](/assets/image/blog/webgl/texture-dataformat.png)
 
@@ -166,7 +167,7 @@ gl.CLAMP_TO_EDGE | 将值控制在0-1之间 | 1.25 = 1.00 : -0.25 = 0.00
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);  
 ```
 ## 定义纹理坐标
-设置纹理坐标，与定顶点颜色坐标类似。WebGL并不知道缓存中的内容是颜色、纹理坐标还是其它数据。它只知道缓存中包含数据。可以看出，将纹理坐标保存在名为verticesTexCoords的数组中，然后把它上传到WebGLBuffer对象。
+设置纹理坐标，与定顶点颜色坐标类似。WebGL并不知道缓存中的内容是颜色、纹理坐标还是其它数据。它只知道缓存中包含数据。可以看出，将纹理坐标保存在名为textureCoords的数组中，然后把它上传到WebGLBuffer对象。
 
 ```javascript
   function initBuffers() {
@@ -177,18 +178,50 @@ gl.CLAMP_TO_EDGE | 将值控制在0-1之间 | 1.25 = 1.00 : -0.25 = 0.00
         |           |
         v1---------V3
         */
-        var verticesTexCoords = new Float32Array([
-            //顶点坐标, 纹理坐标
-            -0.5,  0.5,   0.0, 1.0,
-            -0.5, -0.5,   0.0, 0.0,
-             0.5,  0.5,   1.0, 1.0,
-             0.5, -0.5,   1.0, 0.0,
+        var textureCoords = new Float32Array([
+            // 纹理坐标
+            0.0, 1.0,
+            0.0, 0.0,
+            1.0, 1.0,
+            1.0, 0.0
         ]);
 
-        vertexTexCoordBuffer = gl.createBuffer();
-        gl.bindBuffer(gl.ARRAY_BUFFER, vertexTexCoordBuffer);
-        gl.bufferData(gl.ARRAY_BUFFER, verticesTexCoords, gl.STATIC_DRAW);
+        textureCoordBuffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, textureCoordBuffer);
+        gl.bufferData(gl.ARRAY_BUFFER, textureCoords, gl.STATIC_DRAW);
 
         gl.bindBuffer(gl.ARRAY_BUFFER, null);
     }
 ```
+每个顶点的颜色用4个浮点数来定义，而每个顶点的纹理用两个浮点数来定义。
+
+## 着色器中的纹理处理
+使用着色器，针对纹理的处理与颜色的处理类似，基本一致。纹理着色器中，需要声明一个类型为sampler2D的特殊的统一变量uSampler。这个采样器用来表示需要访问哪个纹理图像单元。
+
+顶点着色器：
+```glsl
+    attribute vec4 a_Position; 
+    attribute vec2 a_TexCoord;
+
+    varying vec2 v_TexCoord;
+     void main(){ 
+      gl_Position = a_Position; 
+      v_TexCoord = a_TexCoord; 
+    }
+```
+片元着色器：
+
+```glsl
+    #ifdef GL_ES 
+    precision mediump float; 
+    #endif 
+
+    uniform sampler2D u_Sampler;
+
+    varying vec2 v_TexCoord; 
+    void main(){ 
+      gl_FragColor = texture2D(u_Sampler, v_TexCoord);
+    }
+```
+
+示例程序：[TextureQuad.html](/examples/webgl/texture/TextureQuad.html)
